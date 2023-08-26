@@ -1,0 +1,55 @@
+.pokemons-container {
+  position: relative;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 1em;
+}
+.pokemon-img {
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+}
+.main {
+  display: flex;
+  background-color: #340305;
+}
+.pokemon-name {
+  color: #fff;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.page-number {
+  position: absolute;
+  margin: 0.5em;
+  top: 0;
+  left: 2%;
+  color: #fff;
+  font-size: 0.8rem;
+}
+.type-name {
+  text-align: center;
+  color: rgb(195, 177, 177);
+}
+.pokemon-types {
+  text-align: center;
+  margin: 0.5em;
+  color: #fff;
+  font-size: 0.8rem;
+}
+.loading {
+  position: absolute;
+  font-size: 2rem;
+  color: #fff;
+}
+.card-container {
+  background: url("/src/assets/pokeball-pokemon.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin: 0.5em;
+  transition: all 0.2s ease-in-out;
+}
+.card-container:hover {
+  transform: translateY(-10px);
+}
