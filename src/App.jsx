@@ -139,6 +139,7 @@ function App() {
   const generationsHandleClick = generationData => {
     setLoading(true);
     setGetPokemonAbilities([]);
+    setRenderSearched(null);
     const generationsPokemonArray = [];
     for (const gen of generationData) {
       const pokemonAbility = abilitiesData.find(
@@ -156,6 +157,7 @@ function App() {
   const handleTypeClick = e => {
     setLoading(true);
     setGetPokemonAbilities([]);
+    setRenderSearched(null);
     //Aside poke type names
     const pokeTypeName =
       e.target.parentNode.parentNode.querySelector(".poke-type").textContent;
