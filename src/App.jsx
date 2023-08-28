@@ -9,6 +9,7 @@ import { generationURLs } from "./apiurl";
 function App() {
   const [fetchPokemonURL, setFetchPokemonURL] = useState([]); //fetchPokemonURL setFetchPokemonURL
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [getPokemonAbilities, setGetPokemonAbilities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -17,7 +18,7 @@ function App() {
 
   //pokemon search
   const [searchPokemon, setSearchPokemon] = useState("");
-  const [renderSearched, setRenderSearched] = useState([]);
+  const [renderSearched, setRenderSearched] = useState(null);
 
   //pagination disabled
   const disableSubtractPages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -49,6 +50,7 @@ function App() {
         );
         setGenerationsData(generationData);
       } catch (error) {
+        setError(error);
         console.log(error);
       }
     };
@@ -67,6 +69,7 @@ function App() {
         const pokemonAbilitiesData = await Promise.all(abilitiesPromises);
         setGetPokemonAbilities(pokemonAbilitiesData);
       } catch (error) {
+        setError(error);
         console.log(error);
       }
     };
@@ -125,6 +128,7 @@ function App() {
         }
         setAbilitiesData(pokemonAbilitiesArray);
       } catch (error) {
+        setError(error);
         console.log(error);
       }
     };
@@ -190,20 +194,22 @@ function App() {
 
   //search pokemon
   const handleSubmit = async e => {
-    setGetPokemonAbilities([]);
-    // setActiveData([]);
-    setSearchPokemon("");
     e.preventDefault();
+    setLoading(true);
     try {
+      setGetPokemonAbilities([]);
+      setActiveData([]);
+      setSearchPokemon("");
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${searchPokemon.toLowerCase()}`
       );
       const data = await response.json();
-      console.log(data);
       setRenderSearched(data);
     } catch (error) {
+      setError(error);
       console.log(error);
     }
+    setTimeout(() => setLoading(false), delay);
   };
 
   return (

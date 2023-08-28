@@ -68,8 +68,7 @@ const Section = ({
       ) : isFilled.length ? (
         <RenderTypesAndGeneration />
       ) : (
-        // <RenderSearched />
-        <h2 style={{ color: "#fff" }}>Still Fixing...</h2>
+        renderSearched && <RenderSearched />
       )}
       <p className="page-number">
         Page {currentPage} of {maxPage ? maxPage : "Calculating..."}
