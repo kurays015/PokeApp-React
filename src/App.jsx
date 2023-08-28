@@ -7,6 +7,7 @@ import { apikey } from "./apiurl";
 import { generationURLs } from "./apiurl";
 
 function App() {
+  alert("Still Fixing Things :D");
   const [fetchPokemonURL, setFetchPokemonURL] = useState([]); //fetchPokemonURL setFetchPokemonURL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -185,7 +186,6 @@ function App() {
   const toggleModal = (name, sprites, abilities, types) => {
     setModalData({ name, sprites, abilities, types });
     setModal(true);
-    // console.log(abilities);
   };
 
   const handleSearch = e => {
