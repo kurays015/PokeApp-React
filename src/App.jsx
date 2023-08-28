@@ -7,7 +7,6 @@ import { apikey } from "./apiurl";
 import { generationURLs } from "./apiurl";
 
 function App() {
-  alert("Still Fixing Things :D");
   const [fetchPokemonURL, setFetchPokemonURL] = useState([]); //fetchPokemonURL setFetchPokemonURL
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
