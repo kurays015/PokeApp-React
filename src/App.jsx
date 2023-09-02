@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
-import Aside from "./components/Aside";
-import Section from "./components/Section";
-import Modal from "./components/Modal";
+
 import { apikey } from "./apiurl";
 import { generationURLs } from "./apiurl";
+import MainAndSection from "./components/pages/MainAndSection";
+
+//react router dom
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GuessThePokemon from "./components/GuessThePokemon";
 
 function App() {
   const [fetchPokemonURL, setFetchPokemonURL] = useState([]); //fetchPokemonURL setFetchPokemonURL
@@ -26,6 +29,19 @@ function App() {
   const isDisabledSubtract = disableSubtractPages.includes(currentPage);
   const isDisabledAdd = disableAddedPages.includes(currentPage);
 
+  //pokemon generations button starts
+  const [generationsData, setGenerationsData] = useState([]); // array of arrays of generations
+  const [abilitiesData, setAbilitiesData] = useState([]); //pokemonsAbilitiesData in single array
+  const [activeData, setActiveData] = useState([]); //active data in page, either pokemon types or generations
+  const [modal, setModal] = useState(false);
+  const [modalData, setModalData] = useState({
+    name: "",
+    sprites: {},
+    abilities: [],
+    types: [],
+  });
+  const maxPage = Math.floor(abilitiesData.length / itemsPerPage);
+
   //use effect for pokemon per page rendered and pokemon generations
   useEffect(() => {
     //fetch api url
@@ -39,9 +55,6 @@ function App() {
           Promise.all(generationURLs.map(url => fetch(url))),
         ]);
 
-        if (!pokemonsResponse.ok) {
-          throw new Error("Error Fetching Pokemon Data");
-        }
         const { results } = await pokemonsResponse.json();
         setFetchPokemonURL(results);
 
@@ -50,7 +63,7 @@ function App() {
         );
         setGenerationsData(generationData);
       } catch (error) {
-        setError(error);
+        setError(error, "Error occured while fetching data");
         console.log(error);
       }
     };
@@ -69,7 +82,7 @@ function App() {
         const pokemonAbilitiesData = await Promise.all(abilitiesPromises);
         setGetPokemonAbilities(pokemonAbilitiesData);
       } catch (error) {
-        setError(error);
+        setError(error, "Error occured while fetching data");
         console.log(error);
       }
     };
@@ -98,19 +111,6 @@ function App() {
     setTimeout(() => setLoading(false), delay);
   };
 
-  //pokemon generations button starts
-  const [generationsData, setGenerationsData] = useState([]); // array of arrays of generations
-  const [abilitiesData, setAbilitiesData] = useState([]); //pokemonsAbilitiesData in single array
-  const [activeData, setActiveData] = useState([]); //active data in page, either pokemon types or generations
-  const [modal, setModal] = useState(false);
-  const [modalData, setModalData] = useState({
-    name: "",
-    sprites: {},
-    abilities: [],
-    types: [],
-  });
-  const maxPage = Math.floor(abilitiesData.length / itemsPerPage);
-
   //use effect for fetching all 1281 pokemons
   useEffect(() => {
     const findPokemonGenerations = async () => {
@@ -128,7 +128,7 @@ function App() {
         }
         setAbilitiesData(pokemonAbilitiesArray);
       } catch (error) {
-        setError(error);
+        setError(error, "Error occured while fetching data");
         console.log(error);
       }
     };
@@ -183,7 +183,7 @@ function App() {
     document.body.classList.remove("remove-scroll");
   }
 
-  //handle modal soon...
+  //handle modal
   const toggleModal = (name, sprites, abilities, types) => {
     setModalData({ name, sprites, abilities, types });
     setModal(true);
@@ -207,71 +207,65 @@ function App() {
       const data = await response.json();
       setRenderSearched(data);
     } catch (error) {
-      setError(error);
+      setError(error, "Error occured while fetching data");
       console.log(error);
     }
     setTimeout(() => setLoading(false), delay);
   };
 
+  //guess the pokemon game
+  const guessThePokemonGame = () => {};
+
   return (
     <>
-      <Navigation
-        generationURLs={generationURLs}
-        generationsData={generationsData}
-        generationsHandleClick={generationsHandleClick}
-      />
-      <main className="main">
-        <Aside
-          handleTypeClick={handleTypeClick}
-          searchPokemon={searchPokemon}
-          handleSearch={handleSearch}
-          handleSubmit={handleSubmit}
+      <Router>
+        <Navigation
+          generationURLs={generationURLs}
+          generationsData={generationsData}
+          generationsHandleClick={generationsHandleClick}
+          guessThePokemonGame={guessThePokemonGame}
         />
-        <Section
-          pokemonPerPage={getPokemonAbilities}
-          currentPage={currentPage}
-          loading={loading}
-          activeData={activeData}
-          maxPage={maxPage}
-          toggleModal={toggleModal}
-          renderSearched={renderSearched}
-        />
-        {modal && (
-          <Modal closeModal={setModal} modalData={modalData} modal={modal} />
-        )}
-      </main>
-      <section className="pagination-container">
-        <button
-          className="prev10-pages"
-          disabled={isDisabledSubtract}
-          style={{ fontSize: "2rem" }}
-          onClick={subtract10Page}
-        >
-          &#xab;
-        </button>
-        <button
-          className="prev"
-          onClick={prevPage}
-          disabled={currentPage === 1}
-        >
-          prev
-        </button>
-        <button
-          className="next"
-          onClick={nextPage}
-          disabled={currentPage === 64}
-        >
-          next
-        </button>
-        <button
-          className="next10-pages"
-          disabled={isDisabledAdd}
-          style={{ fontSize: "2rem" }}
-          onClick={add10Page}
-        >
-          &#xbb;
-        </button>
-      </section>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <MainAndSection
+                handleTypeClick={handleTypeClick}
+                searchPokemon={searchPokemon}
+                handleSearch={handleSearch}
+                handleSubmit={handleSubmit}
+                pokemonPerPage={getPokemonAbilities}
+                currentPage={currentPage}
+                loading={loading}
+                activeData={activeData}
+                maxPage={maxPage}
+                toggleModal={toggleModal}
+                renderSearched={renderSearched}
+                isDisabledSubtract={isDisabledSubtract}
+                isDisabledAdd={isDisabledAdd}
+                subtract10Page={subtract10Page}
+                prevPage={prevPage}
+                nextPage={nextPage}
+                add10Page={add10Page}
+                modal={modal}
+                modalData={modalData}
+                setModal={setModal}
+                error={error}
+              />
+            }
+          />
+          <Route
+            path="/GuessThePokemon"
+            element={
+              <GuessThePokemon
+                generationsHandleClick={generationsHandleClick}
+                generationsData={generationsData}
+                abilitiesData={abilitiesData}
+              />
+            }
+          />
+        </Routes>
+      </Router>
     </>
   );
 }

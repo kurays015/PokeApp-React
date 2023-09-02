@@ -1,14 +1,16 @@
 import pokeballIcon from "../assets/pokeballl.png";
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Navigation = ({ generationsData, generationsHandleClick }) => {
   return (
     <header className="header">
-      <img src={pokeballIcon} className="pokeball-icon" />
+      <Link to="/">
+        <img src={pokeballIcon} className="pokeball-icon" />
+      </Link>
       <nav>
         <ul>
           <li>
-            <a href="#">Who's that Pokémon?</a>
+            <Link to="/GuessThePokemon">Who's that pokemon?</Link>
           </li>
           <li className="dropdown">
             <a className="dropbtn">Pokémon Generations</a>
