@@ -18,12 +18,14 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
   const [startGameBtn, setStartGameBtn] = useState(true);
   const [randomPokemon, setRandomPokemon] = useState(null);
   const [choices, setChoices] = useState([]);
+  const [getNewRandomPokemon, setGetNewRandomPokemon] = useState([]);
   const [score, setScore] = useState(0);
   const [life, setLife] = useState(3);
   const [dark, setDark] = useState(true);
   const [disableBtnAfterGuess, setDisableBtnAfterGuess] = useState(false);
   const noImg =
     randomPokemon && randomPokemon.sprites.other.home.front_default !== null;
+
   const getOneRandomPokemon = eachGenerationArray => {
     const threeChoices = [];
 
@@ -46,7 +48,13 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
     }
 
     //pass to setter function
-    setChoices(threeChoices);
+    const hasDuplicate = threeChoices.some(
+      (choice, index) => threeChoices.indexOf(choice.name) !== index
+    );
+    //remove duplicated name
+    if (hasDuplicate) {
+      setChoices(threeChoices);
+    }
 
     //get one random in the three choices
     const randomNumber = Math.floor(Math.random() * threeChoices.length);
@@ -54,6 +62,7 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
     setRandomPokemon(randomPokemonInThreeChoices);
     setDark(true);
     setDisableBtnAfterGuess(false);
+    setGetNewRandomPokemon(eachGenerationArray);
   };
 
   const checkAnswer = e => {
@@ -64,12 +73,14 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
       setScore(prevScore => prevScore + 1);
       setDark(false);
       setDisableBtnAfterGuess(true);
-      alert("Correct!");
+      // alert("Correct!");
     } else {
       setLife(prevLife => prevLife - 1);
       setDisableBtnAfterGuess(true);
-      alert("wrong!");
+      // alert("wrong!");
     }
+
+    setTimeout(() => getOneRandomPokemon(getNewRandomPokemon), 500);
   };
 
   return (
