@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Navigation from "./components/Navigation";
 
-import { apikey } from "./apiurl";
+import { apiurl } from "./apiurl";
 import { generationURLs } from "./apiurl";
 import MainAndSection from "./components/pages/MainAndSection";
 
@@ -40,7 +40,7 @@ function App() {
     abilities: [],
     types: [],
   });
-  const maxPage = Math.floor(abilitiesData.length / itemsPerPage);
+  const maxPage = Math.floor(1281 / itemsPerPage);
 
   //use effect for pokemon per page rendered and pokemon generations
   useEffect(() => {
@@ -50,7 +50,7 @@ function App() {
         // Combine API requests into a single Promise.all
         const [pokemonsResponse, generationsResponse] = await Promise.all([
           //for pagination endpoint
-          fetch(`${apikey}/?limit=${itemsPerPage}&offset=${offset}`),
+          fetch(`${apiurl}/?limit=${itemsPerPage}&offset=${offset}`),
           //for pokemons generations array
           Promise.all(generationURLs.map(url => fetch(url))),
         ]);
@@ -111,29 +111,73 @@ function App() {
     setTimeout(() => setLoading(false), delay);
   };
 
-  //use effect for fetching all 1281 pokemons
   useEffect(() => {
-    const findPokemonGenerations = async () => {
-      const pokemonAbilitiesArray = [];
+    const fetchPokemonBatch = async (offset, limit) => {
       try {
         const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon?limit=1281"
+          `https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`
         );
         const { results } = await response.json();
 
-        for (const pokemon of results) {
+        const dataPromises = results.map(async pokemon => {
           const response = await fetch(pokemon.url);
-          const pokemonAbilitiesData = await response.json();
-          pokemonAbilitiesArray.push(pokemonAbilitiesData);
+          return response.json();
+        });
+        const pokemonData = await Promise.all(dataPromises);
+
+        // Filter out duplicates before adding data to the state
+        setAbilitiesData(prevData => {
+          const newData = pokemonData.filter(
+            pokemon =>
+              !prevData.some(prevPokemon => prevPokemon.id === pokemon.id)
+          );
+          return [...prevData, ...newData];
+        });
+
+        // Fetch next batch if there are more Pokémon
+        const nextOffset = offset + limit;
+        if (nextOffset < 1281) {
+          fetchPokemonBatch(nextOffset, limit);
         }
-        setAbilitiesData(pokemonAbilitiesArray);
       } catch (error) {
-        setError(error, "Error occured while fetching data");
-        console.log(error);
+        setError(error, "Error occurred while fetching data");
+        console.error(error);
       }
     };
-    findPokemonGenerations();
+
+    // Start fetching with an initial offset and limit
+    fetchPokemonBatch(0, 50); // Adjust the limit as needed
   }, []);
+
+  //use effect for fetching all 1281 pokemons
+  // useEffect(() => {
+  //   const findPokemonGenerations = async () => {
+  //     const pokemonAbilitiesArray = [];
+  //     try {
+  //       const response = await fetch(
+  //         "https://pokeapi.co/api/v2/pokemon?limit=1281"
+  //       );
+  //       const { results } = await response.json();
+
+  //       const dataPromises = results.map(async pokemon => {
+  //         const response = await fetch(pokemon.url);
+  //         return response.json();
+  //       });
+  //       const pokemonData = await Promise.all(dataPromises);
+
+  //       for (const pokemon of results) {
+  //         const response = await fetch(pokemon.url);
+  //         const pokemonAbilitiesData = await response.json();
+  //         pokemonAbilitiesArray.push(pokemonAbilitiesData);
+  //       }
+  //       setAbilitiesData(pokemonData);
+  //     } catch (error) {
+  //       setError(error, "Error occured while fetching data");
+  //       console.log(error);
+  //     }
+  //   };
+  //   findPokemonGenerations();
+  // }, []);
 
   //generations click render
   const generationsHandleClick = generationData => {
@@ -173,6 +217,7 @@ function App() {
       })
       .map(pokemon => pokemon);
     setActiveData(filtered);
+
     setTimeout(() => setLoading(false), delay);
   };
 

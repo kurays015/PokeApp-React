@@ -28,7 +28,6 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
 
   const getOneRandomPokemon = eachGenerationArray => {
     const threeChoices = [];
-
     while (threeChoices.length < 3) {
       const random = Math.floor(Math.random() * eachGenerationArray.length);
       const randomPokemons = eachGenerationArray[random].name;
@@ -72,15 +71,15 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
     if (correctAnswer === userChoice) {
       setScore(prevScore => prevScore + 1);
       setDark(false);
-      setDisableBtnAfterGuess(true);
-      // alert("Correct!");
+      console.log("Correct!");
     } else {
       setLife(prevLife => prevLife - 1);
-      setDisableBtnAfterGuess(true);
-      // alert("wrong!");
+      setDark(false);
+      console.log("wrong!");
     }
 
     setTimeout(() => getOneRandomPokemon(getNewRandomPokemon), 500);
+    setDisableBtnAfterGuess(true);
   };
 
   return (
