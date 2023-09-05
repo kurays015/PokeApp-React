@@ -34,6 +34,7 @@ function App() {
   const [abilitiesData, setAbilitiesData] = useState([]); //pokemonsAbilitiesData in single array
   const [activeData, setActiveData] = useState([]); //active data in page, either pokemon types or generations
   const [modal, setModal] = useState(false);
+  const [scoreModal, setScoreModal] = useState(false);
   const [modalData, setModalData] = useState({
     name: "",
     sprites: {},
@@ -111,6 +112,7 @@ function App() {
     setTimeout(() => setLoading(false), delay);
   };
 
+  //use effect for fetching all 1281 pokemons by batching it
   useEffect(() => {
     const fetchPokemonBatch = async (offset, limit) => {
       try {
@@ -148,36 +150,6 @@ function App() {
     // Start fetching with an initial offset and limit
     fetchPokemonBatch(0, 50); // Adjust the limit as needed
   }, []);
-
-  //use effect for fetching all 1281 pokemons
-  // useEffect(() => {
-  //   const findPokemonGenerations = async () => {
-  //     const pokemonAbilitiesArray = [];
-  //     try {
-  //       const response = await fetch(
-  //         "https://pokeapi.co/api/v2/pokemon?limit=1281"
-  //       );
-  //       const { results } = await response.json();
-
-  //       const dataPromises = results.map(async pokemon => {
-  //         const response = await fetch(pokemon.url);
-  //         return response.json();
-  //       });
-  //       const pokemonData = await Promise.all(dataPromises);
-
-  //       for (const pokemon of results) {
-  //         const response = await fetch(pokemon.url);
-  //         const pokemonAbilitiesData = await response.json();
-  //         pokemonAbilitiesArray.push(pokemonAbilitiesData);
-  //       }
-  //       setAbilitiesData(pokemonData);
-  //     } catch (error) {
-  //       setError(error, "Error occured while fetching data");
-  //       console.log(error);
-  //     }
-  //   };
-  //   findPokemonGenerations();
-  // }, []);
 
   //generations click render
   const generationsHandleClick = generationData => {
@@ -306,6 +278,8 @@ function App() {
                 generationsHandleClick={generationsHandleClick}
                 generationsData={generationsData}
                 abilitiesData={abilitiesData}
+                setScoreModal={setScoreModal}
+                scoreModal={scoreModal}
               />
             }
           />

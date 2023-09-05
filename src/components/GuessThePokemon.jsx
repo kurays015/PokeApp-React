@@ -1,32 +1,24 @@
-//new bug
-//choices is being rendered already without it's element (empty) that causing an error, i need to conditional render it
+import { useState } from "react";
+import ScoreModal from "./ScoreModal";
 
-/* 
-game:
-1. there is a 5 seconds countdown for user to choose their answer
-2. after 5 seconds, the randomPokemon will run again in interval
-3. randomPokemon will stop only if user's life reaches 0
-
-
-
-
-*/
-
-import { useState, useEffect } from "react";
-
-const GuessThePokemon = ({ generationsData, abilitiesData }) => {
+const GuessThePokemon = ({
+  generationsData,
+  abilitiesData,
+  scoreModal,
+  setScoreModal,
+}) => {
   const [startGameBtn, setStartGameBtn] = useState(true);
   const [randomPokemon, setRandomPokemon] = useState(null);
   const [choices, setChoices] = useState([]);
   const [getNewRandomPokemon, setGetNewRandomPokemon] = useState([]);
   const [score, setScore] = useState(0);
   const [life, setLife] = useState(3);
-  const [dark, setDark] = useState(true);
-  const [disableBtnAfterGuess, setDisableBtnAfterGuess] = useState(false);
+  const [dark, setDark] = useState(0);
+  // const [disableBtnAfterGuess, setDisableBtnAfterGuess] = useState(false);
   const noImg =
     randomPokemon && randomPokemon.sprites.other.home.front_default !== null;
 
-  const getOneRandomPokemon = eachGenerationArray => {
+  const generateChoices = eachGenerationArray => {
     const threeChoices = [];
     while (threeChoices.length < 3) {
       const random = Math.floor(Math.random() * eachGenerationArray.length);
@@ -40,46 +32,73 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
         threeChoices.push(found);
       }
     }
-    //shuffle choices
-    for (let i = threeChoices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [threeChoices[i], threeChoices[j]] = [threeChoices[j], threeChoices[i]];
-    }
+    return shuffleChoices(threeChoices);
+  };
 
+  const getOneRandomPokemon = eachGenerationArray => {
+    const choices = generateChoices(eachGenerationArray);
+    const randomIndex = Math.floor(Math.random() * choices.length);
+    const randomChoice = choices[randomIndex];
     //pass to setter function
-    const hasDuplicate = threeChoices.some(
-      (choice, index) => threeChoices.indexOf(choice.name) !== index
+    const hasDuplicate = choices.some(
+      (choice, index) => choices.indexOf(choice.name) !== index
     );
     //remove duplicated name
     if (hasDuplicate) {
-      setChoices(threeChoices);
+      setChoices(choices);
     }
+    setRandomPokemon(randomChoice);
+    // setDisableBtnAfterGuess(false);
+    setGetNewRandomPokemon(prevData => [...prevData, ...eachGenerationArray]);
+  };
 
-    //get one random in the three choices
-    const randomNumber = Math.floor(Math.random() * threeChoices.length);
-    const randomPokemonInThreeChoices = threeChoices[randomNumber];
-    setRandomPokemon(randomPokemonInThreeChoices);
-    setDark(true);
-    setDisableBtnAfterGuess(false);
-    setGetNewRandomPokemon(eachGenerationArray);
+  const shuffleChoices = threeChoices => {
+    const shuffledChoices = [...threeChoices];
+    //shuffle choices
+    for (let i = shuffledChoices.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledChoices[i], shuffledChoices[j]] = [
+        shuffledChoices[j],
+        shuffledChoices[i],
+      ];
+    }
+    return shuffledChoices;
   };
 
   const checkAnswer = e => {
+    setDark(100);
+
     const correctAnswer = randomPokemon.name;
     const userChoice = e.target.textContent;
 
     if (correctAnswer === userChoice) {
       setScore(prevScore => prevScore + 1);
-      setDark(false);
       console.log("Correct!");
     } else {
       setLife(prevLife => prevLife - 1);
-      setDark(false);
+      if (life === 2) {
+        //remove the 1 life pokeball
+      } else if (life === 1) {
+        //remove the 1 life pokeball
+      } else if (life === 0) {
+        //remove the 1 life from pokeball
+        setScoreModal(true); //then show modal of score
+      }
+
       console.log("wrong!");
     }
 
-    setTimeout(() => getOneRandomPokemon(getNewRandomPokemon), 500);
-    setDisableBtnAfterGuess(true);
+    setTimeout(() => {
+      getOneRandomPokemon(getNewRandomPokemon);
+      setDark(0);
+    }, 1500);
+    // setDisableBtnAfterGuess(true);
+  };
+
+  const resetGame = () => {
+    setLife(3);
+    setScore(0);
+    setScoreModal(false);
   };
 
   return (
@@ -114,7 +133,7 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
               {randomPokemon && noImg ? (
                 <img
                   style={{
-                    filter: dark ? "brightness(0%)" : "brightness(100%)",
+                    filter: `brightness(${dark}%)`,
                   }}
                   src={randomPokemon.sprites.other.home.front_default}
                   className="game-random-img"
@@ -131,7 +150,7 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
                 <button
                   className="game-choices-btn"
                   key={index}
-                  disabled={disableBtnAfterGuess}
+                  // disabled={disableBtnAfterGuess}
                   onClick={e => checkAnswer(e)}
                 >
                   {choice.name}
@@ -148,6 +167,7 @@ const GuessThePokemon = ({ generationsData, abilitiesData }) => {
           <p>Score: {score}</p>
           <p>Life: {life}</p>
         </div>
+        {scoreModal && <ScoreModal score={score} resetGame={resetGame} />}
       </div>
     </div>
   );
