@@ -1,17 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@400;500;600;700&family=Patua+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Courgette&family=Montserrat:wght@400;500;600;700&family=Patua+One&display=swap");
 
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
-
+  font-family: "Montserrat", sans-serif;
 }
 body {
-  background-color: #242424;
+  background-color: #554e78;
 }
 .header {
-  background-color: #554E78;
   display: flex;
   align-items: center;
 }
@@ -31,8 +29,12 @@ body {
   text-decoration: none;
   color: #fff;
   font-weight: 700;
+  transition: color 300ms;
+  cursor: pointer;
 }
-
+.nav-btn:hover {
+  color: #f15252;
+}
 .pokeball-icon {
   width: 80px;
 }
@@ -45,26 +47,25 @@ body {
   display: none;
   top: 20px;
   position: absolute;
-  background-color: #434141;
+  background-color: #242424;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 .dropdown-content a {
   padding: 12px 16px;
   text-decoration: none;
-  display: block;  
+  display: block;
   text-decoration: none;
-  color: #224766;
-  font-size: .7rem;
+  font-size: 0.7rem;
   font-weight: 500;
   text-align: center;
+  cursor: pointer;
 }
 
 /* Change link color on hover */
 .dropdown-content a:hover {
-  background-color: #375f7f;
-  color: #fff;
+  background-color: #a15091;
 }
 
 /* Show the dropdown content when the user clicks on the dropdown button */
@@ -77,34 +78,30 @@ body {
   display: flex;
   justify-content: center;
   gap: 1em;
-  padding: .5em;
+  padding: 0.5em;
 }
 .next,
-.prev,
-.next10-pages,
-.prev10-pages {
+.prev {
   cursor: pointer;
 }
 .next10-pages,
 .prev10-pages {
-  color: #fff;
-  border: 1px solid #222;
-  outline: none;
-  
-  background-color: transparent;
+  all: unset;
+  cursor: pointer;
+  transition: all 300ms;
 }
 .next10-pages:hover,
 .prev10-pages:hover {
-  background-color: #434141;
+  background-color: #c381b5;
 }
 .next,
 .prev {
-  padding: .3em .8em;
+  padding: 0.3em 0.8em;
   border-radius: 6px;
   border: none;
   outline: none;
 }
 .next:hover,
 .prev:hover {
-  opacity: .8;
+  opacity: 0.8;
 }

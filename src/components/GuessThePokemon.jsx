@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ScoreModal from "./ScoreModal";
+import lifeCount from "../assets/pokeballsvg.svg";
 
 const GuessThePokemon = ({
   generationsData,
@@ -7,14 +8,21 @@ const GuessThePokemon = ({
   scoreModal,
   setScoreModal,
 }) => {
+  const pokeLivesInitialValue = [
+    { id: 1, life: lifeCount },
+    { id: 2, life: lifeCount },
+    { id: 3, life: lifeCount },
+  ];
   const [startGameBtn, setStartGameBtn] = useState(true);
   const [randomPokemon, setRandomPokemon] = useState(null);
   const [choices, setChoices] = useState([]);
   const [getNewRandomPokemon, setGetNewRandomPokemon] = useState([]);
   const [score, setScore] = useState(0);
-  const [life, setLife] = useState(3);
+  const [livesCount, setLivesCount] = useState(3);
+  const [pokeLives, setPokeLives] = useState(pokeLivesInitialValue);
+  // const [fadeOutIndex, setFadeOutIndex] = useState(-1);
   const [dark, setDark] = useState(0);
-  // const [disableBtnAfterGuess, setDisableBtnAfterGuess] = useState(false);
+  const [disableBtnAfterGuess, setDisableBtnAfterGuess] = useState(false);
   const noImg =
     randomPokemon && randomPokemon.sprites.other.home.front_default !== null;
 
@@ -36,6 +44,7 @@ const GuessThePokemon = ({
   };
 
   const getOneRandomPokemon = eachGenerationArray => {
+    setDisableBtnAfterGuess(false);
     const choices = generateChoices(eachGenerationArray);
     const randomIndex = Math.floor(Math.random() * choices.length);
     const randomChoice = choices[randomIndex];
@@ -48,7 +57,6 @@ const GuessThePokemon = ({
       setChoices(choices);
     }
     setRandomPokemon(randomChoice);
-    // setDisableBtnAfterGuess(false);
     setGetNewRandomPokemon(prevData => [...prevData, ...eachGenerationArray]);
   };
 
@@ -67,6 +75,7 @@ const GuessThePokemon = ({
 
   const checkAnswer = e => {
     setDark(100);
+    setDisableBtnAfterGuess(true);
 
     const correctAnswer = randomPokemon.name;
     const userChoice = e.target.textContent;
@@ -75,35 +84,37 @@ const GuessThePokemon = ({
       setScore(prevScore => prevScore + 1);
       console.log("Correct!");
     } else {
-      setLife(prevLife => prevLife - 1);
-      if (life === 2) {
-        //remove the 1 life pokeball
-      } else if (life === 1) {
-        //remove the 1 life pokeball
-      } else if (life === 0) {
-        //remove the 1 life from pokeball
-        setScoreModal(true); //then show modal of score
-      }
+      setLivesCount(prevLife => prevLife - 1);
+      // Remove the first item from pokeLives,
+      const updatedItems = pokeLives.slice(1);
+      setPokeLives(updatedItems);
 
+      // setFadeOutIndex(fadeOutIndex + 1);
       console.log("wrong!");
     }
-
     setTimeout(() => {
       getOneRandomPokemon(getNewRandomPokemon);
-      setDark(0);
-    }, 1500);
-    // setDisableBtnAfterGuess(true);
+    }, 1000);
   };
 
+  //check life and show modal if lives turn to zero
+  useEffect(() => {
+    if (livesCount === 0) {
+      setScoreModal(true);
+    }
+  }, [livesCount]);
+
+  //reset game
   const resetGame = () => {
-    setLife(3);
+    setLivesCount(3);
     setScore(0);
     setScoreModal(false);
+    setPokeLives(pokeLivesInitialValue);
   };
 
   return (
     <div className="generation-game-container">
-      <h1 className="generation-game-title">Guess The Pokemon...</h1>
+      <h1 className="generation-game-title">Who's that pokémon?</h1>
       <div className="gamescore-and-button-container">
         <div className="generation-game-buttons-container">
           {generationsData &&
@@ -150,7 +161,7 @@ const GuessThePokemon = ({
                 <button
                   className="game-choices-btn"
                   key={index}
-                  // disabled={disableBtnAfterGuess}
+                  disabled={disableBtnAfterGuess}
                   onClick={e => checkAnswer(e)}
                 >
                   {choice.name}
@@ -164,8 +175,22 @@ const GuessThePokemon = ({
           </div>
         )}
         <div className="generation-score-container">
-          <p>Score: {score}</p>
-          <p>Life: {life}</p>
+          <div className="life-container">
+            {pokeLives.map(({ id, life }, index) => (
+              <img
+                key={id}
+                src={life}
+                alt="Life-Count"
+                className="poke-lifeCount"
+              />
+            ))}
+          </div>
+          <div className="lb-btn-container">
+            <p className="score-count">Score: {score}</p>
+            <button className="lb-btn" onClick={() => alert("coming soon!")}>
+              Leaderboard
+            </button>
+          </div>
         </div>
         {scoreModal && <ScoreModal score={score} resetGame={resetGame} />}
       </div>

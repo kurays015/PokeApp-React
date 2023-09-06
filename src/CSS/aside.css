@@ -1,8 +1,9 @@
 aside {
   width: 10%;
-  background-color: lightblue;
+  background-color: #9c88c6;
   padding: 1em;
   height: 80%;
+  border-radius: 6px;
 }
 .icon-container {
   display: flex;
@@ -26,6 +27,7 @@ aside {
 }
 .poke-type {
   margin-left: 10px;
+  color: #fff;
 }
 
 .icon:hover {

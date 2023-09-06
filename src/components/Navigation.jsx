@@ -1,19 +1,24 @@
-import pokeballIcon from "../assets/pokeballl.png";
 import { Link } from "react-router-dom";
+import pikachu from "../assets/pikachu-dance.gif";
 
 const Navigation = ({ generationsData, generationsHandleClick }) => {
   return (
     <header className="header">
-      <Link to="/">
-        <img src={pokeballIcon} className="pokeball-icon" />
-      </Link>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Link to="/">
+          <img src={pikachu} style={{ margin: ".7em", width: "100px" }} />
+        </Link>
+      </div>
+
       <nav>
         <ul>
           <li>
-            <Link to="/GuessThePokemon">Who's that pokemon?</Link>
+            <Link to="/GuessThePokemon" className="nav-btn">
+              Guess The Pokemon
+            </Link>
           </li>
           <li className="dropdown">
-            <a className="dropbtn">Pokémon Generations</a>
+            <a className="nav-btn">Pokémon Generations</a>
             <div className="dropdown-content">
               {generationsData &&
                 generationsData.map((generationData, index) => (
@@ -31,7 +36,9 @@ const Navigation = ({ generationsData, generationsHandleClick }) => {
             </div>
           </li>
           <li>
-            <a href="#">About</a>
+            <Link to="/about" className="nav-btn">
+              About
+            </Link>
           </li>
         </ul>
       </nav>

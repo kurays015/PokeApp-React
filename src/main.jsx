@@ -7,6 +7,7 @@ import "./CSS/section.css";
 import "./CSS/modal.css";
 import "./CSS/game.css";
 import "./CSS/score-modal.css";
+import "./CSS/about.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

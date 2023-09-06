@@ -9,7 +9,7 @@ const Aside = ({
       <form onSubmit={e => handleSubmit(e)}>
         <input
           type="text"
-          placeholder="Search pokemon"
+          placeholder="Search pokemon..."
           className="pokemon-search"
           value={searchPokemon}
           onChange={handleSearch}

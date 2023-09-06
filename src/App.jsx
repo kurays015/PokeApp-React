@@ -4,6 +4,7 @@ import Navigation from "./components/Navigation";
 import { apiurl } from "./apiurl";
 import { generationURLs } from "./apiurl";
 import MainAndSection from "./components/pages/MainAndSection";
+import About from "./components/About";
 
 //react router dom
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -194,7 +195,7 @@ function App() {
   };
 
   //remove scroll when modal is open
-  if (modal) {
+  if (modal || scoreModal) {
     document.body.classList.add("remove-scroll");
   } else {
     document.body.classList.remove("remove-scroll");
@@ -283,6 +284,7 @@ function App() {
               />
             }
           />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Router>
     </>

@@ -23,8 +23,11 @@
   padding: 1em;
   border-radius: 6px;
 }
-.generation-score-container p {
+.score-count {
   color: #fff;
+  margin: 0.7em;
+  font-weight: 600;
+  font-size: 2rem;
 }
 .game-generation-button {
   all: unset;
@@ -89,4 +92,42 @@
 }
 .game-choices-btn:hover {
   background-color: crimson;
+}
+.poke-lifeCount {
+  width: 50px;
+  margin: 0.5em;
+}
+.poke-lifeCount.fade-out {
+  animation: fadeOutY 1s ease-in-out;
+}
+
+@keyframes fadeOutY {
+  from {
+    transform: translateY(0) rotate(360deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+}
+.life-container {
+  text-align: center;
+}
+.lb-btn {
+  all: unset;
+  border: 1px solid #fff;
+  padding: 0.7em;
+  color: rgb(84, 136, 239);
+  font-weight: 600;
+  text-align: center;
+  transition: color 300ms;
+  cursor: pointer;
+}
+.lb-btn:hover {
+  color: #fff;
+  background-color: rgb(37, 49, 74);
+}
+.lb-btn-container {
+  text-align: center;
 }
