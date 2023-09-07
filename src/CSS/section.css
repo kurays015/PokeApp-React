@@ -34,7 +34,8 @@
 .pokemon-types {
   text-align: center;
   margin: 0.5em;
-  color: #fff;
+  color: #d3afdb;
+  font-weight: 600;
   font-size: 0.8rem;
 }
 .loading {

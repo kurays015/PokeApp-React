@@ -1,4 +1,3 @@
-import github from "../assets/GitHub-Mark.png";
 const About = () => {
   return (
     <div className="about">
@@ -9,7 +8,7 @@ const About = () => {
         target="_blank"
         title="code"
       >
-        <img src={github} width="50px" />
+        <img src="src/assets/GitHub-Mark.png" width="50px" />
       </a>
     </div>
   );

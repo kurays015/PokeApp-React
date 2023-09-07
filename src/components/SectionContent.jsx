@@ -1,3 +1,4 @@
+import { useState } from "react";
 const Section = ({
   pokemonPerPage,
   currentPage,
@@ -8,6 +9,20 @@ const Section = ({
   maxPage,
 }) => {
   const isFilled = pokemonPerPage.length ? pokemonPerPage : activeData;
+
+  const typeColors = {
+    fire: "orange",
+    water: "lightblue",
+    bug: "crimson",
+    dragon: "brown",
+    poison: "violet",
+    grass: "springgreen",
+    // Add more type-color mappings as needed for all 20 types
+  };
+
+  function getTypeColor(typeName) {
+    return typeColors[typeName.toLowerCase()] || "black";
+  }
 
   function RenderSearched() {
     return (

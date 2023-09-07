@@ -4,7 +4,7 @@ import Navigation from "./components/Navigation";
 import { apiurl } from "./apiurl";
 import { generationURLs } from "./apiurl";
 import MainAndSection from "./components/pages/MainAndSection";
-import About from "./components/About";
+import About from "./components/pages/About";
 
 //react router dom
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
