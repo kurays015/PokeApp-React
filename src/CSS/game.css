@@ -14,12 +14,10 @@
   display: flex;
   flex-direction: column;
   width: 15%;
-  border: 1px solid #fa7f7f;
   padding: 1em;
   border-radius: 6px;
 }
 .generation-score-container {
-  border: 1px solid #fa7f7f;
   padding: 1em;
   border-radius: 6px;
 }
@@ -31,7 +29,7 @@
 }
 .game-generation-button {
   all: unset;
-  border: 1px solid gray;
+  border: 1px solid #fff;
   margin: 0.3em;
   text-align: center;
   padding: 1em;
@@ -40,6 +38,9 @@
   transition: all 200ms;
   font-weight: 600;
   letter-spacing: 1px;
+}
+.game-generation-button:active {
+  background-color: crimson;
 }
 .game-generation-button:hover {
   background-color: crimson;
@@ -78,10 +79,17 @@
 .game-random-img {
   width: 80%;
 }
+.game-random-pokemon {
+  display: flex;
+  flex-direction: column;
+}
+.game-random-pokemon > div {
+  text-align: center;
+}
 .game-choices-btn {
   all: unset;
-  border: 1px solid #6b6666;
-  margin: 1em 0.5em;
+  border: 1px solid #fa7f7f;
+  margin: 0.5em;
   padding: 0.5em 0.8em;
   border-radius: 6px;
   color: #fff;
@@ -89,8 +97,12 @@
   cursor: pointer;
   transition: all 200ms;
   font-weight: 600;
+  width: 70%;
 }
 .game-choices-btn:hover {
+  background-color: crimson;
+}
+.game-choices-btn:active {
   background-color: crimson;
 }
 .poke-lifeCount {

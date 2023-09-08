@@ -7,6 +7,9 @@ const GuessThePokemon = ({
   abilitiesData,
   scoreModal,
   setScoreModal,
+  hamburgerToggle,
+  hamburgerMenuToggle,
+  closeMenu,
 }) => {
   const pokeLivesInitialValue = [
     { id: 1, life: lifeCount },
@@ -44,6 +47,7 @@ const GuessThePokemon = ({
   };
 
   const getOneRandomPokemon = eachGenerationArray => {
+    closeMenu(false);
     setDisableBtnAfterGuess(false);
     const choices = generateChoices(eachGenerationArray);
     const randomIndex = Math.floor(Math.random() * choices.length);
@@ -110,13 +114,27 @@ const GuessThePokemon = ({
     setScore(0);
     setScoreModal(false);
     setPokeLives(pokeLivesInitialValue);
+    getOneRandomPokemon(getNewRandomPokemon);
   };
 
   return (
     <div className="generation-game-container">
+      {/* <!-- Hamburger icon --> */}
+      <div
+        className={`hamburger-menu ${hamburgerToggle ? "active" : ""}`}
+        onClick={hamburgerMenuToggle}
+      >
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+      </div>
       <h1 className="generation-game-title">Who's that pokémon?</h1>
       <div className="gamescore-and-button-container">
-        <div className="generation-game-buttons-container">
+        <div
+          className={`generation-game-buttons-container ${
+            hamburgerToggle ? "show" : ""
+          }`}
+        >
           {generationsData &&
             generationsData.map((generationData, index) => (
               <button
@@ -142,56 +160,62 @@ const GuessThePokemon = ({
           <div className="game-choices">
             <div className="game-random-pokemon">
               {randomPokemon && noImg ? (
-                <img
-                  style={{
-                    filter: `brightness(${dark}%)`,
-                  }}
-                  src={randomPokemon.sprites.other.home.front_default}
-                  className="game-random-img"
-                  onDragStart={e => e.preventDefault()}
-                />
+                <div>
+                  <img
+                    style={{
+                      filter: `brightness(${dark}%)`,
+                    }}
+                    src={randomPokemon.sprites.other.home.front_default}
+                    className="game-random-img"
+                    onDragStart={e => e.preventDefault()}
+                  />
+                </div>
               ) : (
                 <div style={{ color: "gray", fontSize: ".8em" }}>
                   No Image Available
                 </div>
               )}
+              {choices.length ? (
+                choices.map((choice, index) => (
+                  <div key={index}>
+                    <button
+                      className="game-choices-btn"
+                      disabled={disableBtnAfterGuess}
+                      onClick={e => checkAnswer(e)}
+                    >
+                      {choice.name}
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div style={{ color: "#fff" }}>
+                  Click one of the generation buttons...
+                </div>
+              )}
             </div>
-            {choices.length ? (
-              choices.map((choice, index) => (
-                <button
-                  className="game-choices-btn"
-                  key={index}
-                  disabled={disableBtnAfterGuess}
-                  onClick={e => checkAnswer(e)}
-                >
-                  {choice.name}
-                </button>
-              ))
-            ) : (
-              <div style={{ color: "#fff" }}>
-                Click one of the generation buttons...
-              </div>
-            )}
           </div>
         )}
-        <div className="generation-score-container">
-          <div className="life-container">
-            {pokeLives.map(({ id, life }, index) => (
-              <img
-                key={id}
-                src={life}
-                alt="Life-Count"
-                className="poke-lifeCount"
-              />
-            ))}
-          </div>
-          <div className="lb-btn-container">
-            <p className="score-count">Score: {score}</p>
-            <button className="lb-btn" onClick={() => alert("coming soon!")}>
-              Leaderboard
-            </button>
+        <div className="stats-container">
+          <div className="generation-score-container">
+            <div className="life-container">
+              {pokeLives.map(({ id, life }) => (
+                <img
+                  key={id}
+                  src={life}
+                  alt="Life-Count"
+                  className="poke-lifeCount"
+                />
+              ))}
+            </div>
+            <div className="lb-btn-container">
+              <p className="score-count">Score: {score}</p>
+              <button className="lb-btn" onClick={() => alert("coming soon!")}>
+                Leaderboard
+              </button>
+            </div>
           </div>
         </div>
+
         {scoreModal && <ScoreModal score={score} resetGame={resetGame} />}
       </div>
     </div>

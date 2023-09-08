@@ -1,7 +1,10 @@
 const About = () => {
   return (
     <div className="about">
-      <h1>This PokeDexApp is made using pokeAPI by Christ Narvarte</h1>
+      <h1>
+        This PokeDexApp is made using HTML, CSS, JavaScript, React, and pokeAPI
+        by Christ Narvarte
+      </h1>
       <p>You can search and play a guessing game</p>
       <a
         href="https://github.com/kurays015/PokeApp-React"

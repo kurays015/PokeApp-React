@@ -42,6 +42,8 @@ function App() {
     abilities: [],
     types: [],
   });
+  //hamburger menu
+  const [hamburgerToggle, setHamburgerToggle] = useState(false);
   const maxPage = Math.floor(1281 / itemsPerPage);
 
   //use effect for pokemon per page rendered and pokemon generations
@@ -152,6 +154,11 @@ function App() {
     fetchPokemonBatch(0, 50); // Adjust the limit as needed
   }, []);
 
+  //burger menu
+  const hamburgerMenuToggle = () => {
+    setHamburgerToggle(!hamburgerToggle);
+  };
+
   //generations click render
   const generationsHandleClick = generationData => {
     setLoading(true);
@@ -231,9 +238,6 @@ function App() {
     setTimeout(() => setLoading(false), delay);
   };
 
-  //guess the pokemon game
-  const guessThePokemonGame = () => {};
-
   return (
     <>
       <Router>
@@ -241,7 +245,6 @@ function App() {
           generationURLs={generationURLs}
           generationsData={generationsData}
           generationsHandleClick={generationsHandleClick}
-          guessThePokemonGame={guessThePokemonGame}
         />
         <Routes>
           <Route
@@ -281,6 +284,9 @@ function App() {
                 abilitiesData={abilitiesData}
                 setScoreModal={setScoreModal}
                 scoreModal={scoreModal}
+                hamburgerMenuToggle={hamburgerMenuToggle}
+                hamburgerToggle={hamburgerToggle}
+                closeMenu={setHamburgerToggle}
               />
             }
           />
