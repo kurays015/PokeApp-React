@@ -5,9 +5,10 @@ const Aside = ({
   searchPokemon,
   handleSearch,
   handleSubmit,
+  isShow,
 }) => {
   return (
-    <aside>
+    <aside className={`aside-container ${isShow ? "show" : ""}`}>
       <form onSubmit={e => handleSubmit(e)}>
         <input
           type="text"

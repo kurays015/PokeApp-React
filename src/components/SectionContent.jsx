@@ -1,4 +1,6 @@
 import { useState } from "react";
+import arrow from "../assets/arrow.png";
+
 const Section = ({
   pokemonPerPage,
   currentPage,
@@ -7,6 +9,8 @@ const Section = ({
   renderSearched,
   toggleModal,
   maxPage,
+  handleAsideToggle,
+  isShow,
 }) => {
   const isFilled = pokemonPerPage.length ? pokemonPerPage : activeData;
 
@@ -64,6 +68,12 @@ const Section = ({
       <p className="page-number">
         Page {currentPage} of {maxPage ? maxPage : "Calculating..."}
       </p>
+      <img
+        src={arrow}
+        className={`aside-toggle-arrow ${isShow ? "rotate" : ""}`}
+        onClick={handleAsideToggle}
+      />
+
       {loading ? (
         <div className="loading">Please wait or click again...</div>
       ) : isFilled.length ? (

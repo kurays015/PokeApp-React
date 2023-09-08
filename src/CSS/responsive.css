@@ -418,7 +418,34 @@
   /* about ends */
 
   /* aside! */
-  aside {
-    display: none;
+
+  .aside-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    width: 50%;
+    height: 100%;
+    transform: translateX(-300px);
+    transition: 0.3s ease-in-out;
+  }
+  .aside-container.show {
+    display: block;
+    transform: translateX(0);
+  }
+  .aside-toggle-arrow {
+    display: block;
+    left: 0%;
+    top: 50px;
+    position: absolute;
+    width: 50px;
+    transition: 0.3s ease-in-out;
+  }
+  .aside-toggle-arrow.rotate {
+    z-index: 4;
+    top: 50px;
+    transform: rotate(180deg);
+    left: 45%;
   }
 }

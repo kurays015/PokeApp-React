@@ -1,6 +1,7 @@
 import Aside from "../Aside";
 import SectionContent from "../SectionContent";
 import Modal from "../Modal";
+import { useState } from "react";
 
 const MainAndSection = ({
   handleTypeClick,
@@ -25,6 +26,13 @@ const MainAndSection = ({
   setModal,
   error,
 }) => {
+  //aside toggle
+  const [isShow, setIsShow] = useState(false);
+
+  const handleAsideToggle = () => {
+    setIsShow(!isShow);
+  };
+
   return (
     <>
       <main className="main">
@@ -33,6 +41,7 @@ const MainAndSection = ({
           searchPokemon={searchPokemon}
           handleSearch={handleSearch}
           handleSubmit={handleSubmit}
+          isShow={isShow}
         />
         {error ? (
           <h1>{error}</h1>
@@ -45,6 +54,8 @@ const MainAndSection = ({
             maxPage={maxPage}
             toggleModal={toggleModal}
             renderSearched={renderSearched}
+            handleAsideToggle={handleAsideToggle}
+            isShow={isShow}
           />
         )}
         {modal && (

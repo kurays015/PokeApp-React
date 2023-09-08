@@ -135,4 +135,7 @@ body {
   width: 100px;
 }
 
-/* hamburger */
+/* aside toggle */
+.aside-toggle-arrow {
+  display: none;
+}
