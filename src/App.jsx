@@ -42,9 +42,10 @@ function App() {
     abilities: [],
     types: [],
   });
-  //gen name and region name
+  //render gen name, region name, and typename dynamically
   const [regionName, setRegionName] = useState("");
   const [genNumber, setGenNumber] = useState("");
+  const [typeName, setTypeName] = useState("");
   //hamburger menu
   const [hamburgerToggle, setHamburgerToggle] = useState(false);
   const maxPage = Math.floor(1281 / itemsPerPage);
@@ -190,6 +191,7 @@ function App() {
     //Aside poke type names
     const pokeTypeName =
       e.target.parentNode.parentNode.querySelector(".poke-type").textContent;
+    setTypeName(pokeTypeName);
     const pokeTypeLowerCaseFirstIndex =
       pokeTypeName.charAt(0).toLowerCase() + pokeTypeName.slice(1);
     // when this function runs, it filters each pokemon types
@@ -279,6 +281,7 @@ function App() {
                 error={error}
                 regionName={regionName}
                 genNumber={genNumber}
+                typeName={typeName}
               />
             }
           />

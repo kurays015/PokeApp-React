@@ -27,6 +27,7 @@ const MainAndSection = ({
   error,
   regionName,
   genNumber,
+  typeName,
 }) => {
   //aside toggle
   const [isShow, setIsShow] = useState(false);
@@ -60,6 +61,7 @@ const MainAndSection = ({
             isShow={isShow}
             regionName={regionName}
             genNumber={genNumber}
+            typeName={typeName}
           />
         )}
         {modal && (

@@ -13,8 +13,13 @@ const Section = ({
   isShow,
   regionName,
   genNumber,
+  typeName,
 }) => {
   const isFilled = pokemonPerPage.length ? pokemonPerPage : activeData;
+  const contentToDisplay =
+    genNumber && regionName
+      ? `${genNumber.toUpperCase()} - ${regionName.toUpperCase()}`
+      : typeName;
 
   function RenderSearched() {
     return (
@@ -67,15 +72,7 @@ const Section = ({
 
   return (
     <section className="pokemons-container">
-      <>
-        {genNumber && regionName ? (
-          <h1 className="generation-number">
-            {genNumber.toUpperCase()} - {regionName.toUpperCase()}
-          </h1>
-        ) : (
-          ""
-        )}
-      </>
+      <h1 className="generation-number">{contentToDisplay}</h1>
       <p className="page-number">
         Page {currentPage} of {maxPage ? maxPage : "Calculating..."}
       </p>
