@@ -25,6 +25,8 @@ const MainAndSection = ({
   modalData,
   setModal,
   error,
+  regionName,
+  genNumber,
 }) => {
   //aside toggle
   const [isShow, setIsShow] = useState(false);
@@ -56,6 +58,8 @@ const MainAndSection = ({
             renderSearched={renderSearched}
             handleAsideToggle={handleAsideToggle}
             isShow={isShow}
+            regionName={regionName}
+            genNumber={genNumber}
           />
         )}
         {modal && (

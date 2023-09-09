@@ -6,7 +6,9 @@
     position: absolute;
     left: 50%;
   }
-
+  .generation-number {
+    font-size: 1.3rem;
+  }
   .poke-type {
     font-size: 0.9rem;
   }
@@ -72,7 +74,9 @@
     position: absolute;
     left: 50%;
   }
-
+  .generation-number {
+    font-size: 1rem;
+  }
   .poke-type {
     font-size: 0.9rem;
   }
@@ -148,6 +152,9 @@
   .pagination-container {
     position: absolute;
     left: 50%;
+  }
+  .generation-number {
+    font-size: 0.8rem;
   }
 
   .poke-type {
@@ -252,6 +259,11 @@
   .poke-type {
     font-size: 0.9rem;
   }
+  .generation-number {
+    font-size: 0.8rem;
+    margin-top: 1em;
+    text-align: center;
+  }
   .icon {
     min-width: 30px;
   }
@@ -341,6 +353,9 @@
     font-size: 0.8rem;
   }
   .pikachu {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 60px;
     margin: 0;
   }
@@ -437,8 +452,8 @@
   .aside-toggle-arrow {
     display: block;
     left: 0%;
-    top: 50px;
-    position: absolute;
+    top: 80px;
+    position: fixed;
     width: 50px;
     transition: 0.3s ease-in-out;
   }

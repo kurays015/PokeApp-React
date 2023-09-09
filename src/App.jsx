@@ -42,6 +42,9 @@ function App() {
     abilities: [],
     types: [],
   });
+  //gen name and region name
+  const [regionName, setRegionName] = useState("");
+  const [genNumber, setGenNumber] = useState("");
   //hamburger menu
   const [hamburgerToggle, setHamburgerToggle] = useState(false);
   const maxPage = Math.floor(1281 / itemsPerPage);
@@ -160,7 +163,9 @@ function App() {
   };
 
   //generations click render
-  const generationsHandleClick = generationData => {
+  const generationsHandleClick = (generationData, gen, region) => {
+    setRegionName(region);
+    setGenNumber(gen);
     setLoading(true);
     setGetPokemonAbilities([]);
     setRenderSearched(null);
@@ -272,6 +277,8 @@ function App() {
                 modalData={modalData}
                 setModal={setModal}
                 error={error}
+                regionName={regionName}
+                genNumber={genNumber}
               />
             }
           />

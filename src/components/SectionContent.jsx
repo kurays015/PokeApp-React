@@ -11,6 +11,8 @@ const Section = ({
   maxPage,
   handleAsideToggle,
   isShow,
+  regionName,
+  genNumber,
 }) => {
   const isFilled = pokemonPerPage.length ? pokemonPerPage : activeData;
 
@@ -65,6 +67,15 @@ const Section = ({
 
   return (
     <section className="pokemons-container">
+      <>
+        {genNumber && regionName ? (
+          <h1 className="generation-number">
+            {genNumber.toUpperCase()} - {regionName.toUpperCase()}
+          </h1>
+        ) : (
+          ""
+        )}
+      </>
       <p className="page-number">
         Page {currentPage} of {maxPage ? maxPage : "Calculating..."}
       </p>

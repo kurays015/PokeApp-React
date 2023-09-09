@@ -20,6 +20,7 @@ const Navigation = ({ generationsData, generationsHandleClick }) => {
               </Link>
             </li>
 
+            {/* mobile gen buttons */}
             <li className="dropdown2-mobile">
               <a className="nav-btn">Pokémon Generations</a>
               <div className="dropdown-content2-mobile">
@@ -40,6 +41,7 @@ const Navigation = ({ generationsData, generationsHandleClick }) => {
               </div>
             </li>
 
+            {/* main gen buttons */}
             <li className="dropdown">
               <a className="nav-btn">Pokémon Generations</a>
               <div className="dropdown-content">
@@ -51,7 +53,11 @@ const Navigation = ({ generationsData, generationsHandleClick }) => {
                       id="gen-btn"
                       key={index}
                       onClick={() =>
-                        generationsHandleClick(generationData.pokemon_species)
+                        generationsHandleClick(
+                          generationData.pokemon_species,
+                          generationData.name,
+                          generationData.main_region.name
+                        )
                       }
                     >
                       Pokémon Generation {index + 1}
