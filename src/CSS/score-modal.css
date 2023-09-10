@@ -10,7 +10,8 @@
   justify-content: center;
 }
 .score-modal-content {
-  outline: 1px solid lightblue;
+  border-radius: 6px;
+  background-color: rgb(105, 60, 105);
   text-align: center;
   padding: 1.5em 2.5em;
 }
@@ -27,10 +28,12 @@
   all: unset;
   padding: 0.5em 0.8em;
   border: 1px solid #fff;
-  color: #fff;
+  color: springgreen;
+  font-weight: 700;
   transition: all 300ms;
   cursor: pointer;
+  background-color: rgb(75, 33, 75);
 }
-.try-again:hover {
-  background-color: crimson;
+.try-again:active {
+  opacity: 0.5;
 }
