@@ -47,7 +47,7 @@ const MainAndSection = ({
           isShow={isShow}
         />
         {error ? (
-          <h1>{error}</h1>
+          <h1 className="error-msg">{error}</h1>
         ) : (
           <SectionContent
             pokemonPerPage={pokemonPerPage}

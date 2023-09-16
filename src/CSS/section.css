@@ -62,3 +62,7 @@
   text-shadow: 2px 2px 10px #6b0d6b;
   color: #e9a8e9;
 }
+.error-msg {
+  color: red;
+  margin: 0 auto;
+}

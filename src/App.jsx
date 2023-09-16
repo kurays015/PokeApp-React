@@ -13,7 +13,7 @@ import GuessThePokemon from "./components/GuessThePokemon";
 function App() {
   const [fetchPokemonURL, setFetchPokemonURL] = useState([]); //fetchPokemonURL setFetchPokemonURL
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const [getPokemonAbilities, setGetPokemonAbilities] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -71,7 +71,7 @@ function App() {
         );
         setGenerationsData(generationData);
       } catch (error) {
-        setError(error, "Error occured while fetching data");
+        setErrorMessage(error, "Error occured while fetching data");
         console.log(error);
       }
     };
@@ -90,7 +90,7 @@ function App() {
         const pokemonAbilitiesData = await Promise.all(abilitiesPromises);
         setGetPokemonAbilities(pokemonAbilitiesData);
       } catch (error) {
-        setError(error, "Error occured while fetching data");
+        setErrorMessage(error, "Error occured while fetching data");
         console.log(error);
       }
     };
@@ -149,7 +149,7 @@ function App() {
           fetchPokemonBatch(nextOffset, limit);
         }
       } catch (error) {
-        setError(error, "Error occurred while fetching data");
+        setErrorMessage(error, "Error occurred while fetching data");
         console.error(error);
       }
     };
@@ -236,10 +236,14 @@ function App() {
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${searchPokemon.toLowerCase()}`
       );
+      if (!response.ok) {
+        throw new Error("Invalid keyword!"); // Handle invalid keyword here
+      }
       const data = await response.json();
       setRenderSearched(data);
     } catch (error) {
-      setError(error, "Error occured while fetching data");
+      alert(error.message);
+      setErrorMessage(error.message); // Set the error message as a string
       console.log(error);
     }
     setTimeout(() => setLoading(false), delay);
@@ -278,7 +282,7 @@ function App() {
                 modal={modal}
                 modalData={modalData}
                 setModal={setModal}
-                error={error}
+                error={errorMessage}
                 regionName={regionName}
                 genNumber={genNumber}
                 typeName={typeName}
